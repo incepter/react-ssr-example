@@ -4,14 +4,16 @@ const ReactDOMServer = require("react-dom/server")
 import App from "../client/App"
 
 const app = express()
-const port = 3000
-const clientPort = 8080
 
-const clientBundleScript = `<script src="http://localhost:8080/scripts/bundle.js"></script>`; // [B]
+const port = process.env.PORT ?? 3000
+const clientAppBaseUrl = process.env.CLIENT_APP_BASE_URL ?? 'http://localhost:8080'
+
+const clientBundleScript =
+  `<script src="${clientAppBaseUrl}/scripts/bundle.js"></script>`; 
 
 
-app.get('/', (req, res) => {
-  const reactApp = ReactDOMServer.renderToString(<App name="me"/>);
+app.get('*', (_req, res) => {
+  const reactApp = ReactDOMServer.renderToString(<App />);
   return res.send(
     `
       <html>
@@ -27,5 +29,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Started listening at http://localhost:${port}`)
 })
