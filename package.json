@@ -7,12 +7,14 @@
     "clear": "rimraf build",
     "build:server": "webpack --config webpack.server.js",
     "start:server": "node server-build/bundle.js",
-    "dev:server": "cross-env npm-run-all -s clear build:server start:server",
+    "dev:server": "nodemon --watch src/server --exec \"run-s clear build:server start:server\"",
     "dev:client": "webpack serve --config webpack.client.js",
     "dev": "npm-run-all --parallel dev:client dev:server"
   },
   "dependencies": {
     "express": "^4.18.1",
+    "isomorphic-fetch": "^3.0.0",
+    "node-fetch": "^3.2.5",
     "react": "^18.1.0",
     "react-async-states": "^1.0.0-rc-1.1",
     "react-dom": "^18.1.0"
